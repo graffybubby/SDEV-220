@@ -28,19 +28,25 @@ def collectValidate():
         vc = True 
         # begin collecting student information starting with last name
         while(va):
-            studentLName = input("Please enter the students last name:")
-            # if the students last name is 'zzz' cancel further inputs by setting all validation bools to false
-            # and stop the main loop by setting 'running' to false
-            if studentLName.lower() == "zzz": 
-                print("\nProcessing students now...")
-                va = False
-                vb = False
-                vc = False
-                running = False
-                break
+            studentLName = input("Please enter the students last name or 'zzz' to quit/begin processing:")
             # confirm students last name contains only alphabetical characters
-            elif studentLName.isalpha() == False:
+            if studentLName.isalpha() == False:
                 print(studentNameError)
+            # check if the students last name is 'zzz' 
+            elif studentLName.lower() == "zzz": 
+                # if there are students in the list, cancel further inputs by setting all validation bools to false
+                # and stop the main loop by setting 'running' to false
+                if students: 
+                    print("\nProcessing students now...")
+                    va = False
+                    vb = False
+                    vc = False
+                    running = False
+                    break
+                # if there are no students, quit.
+                else:
+                    print("\nNo students to process, exiting now...")
+                    quit()
             else: break
         # collect student first name
         while(vb):
@@ -54,7 +60,7 @@ def collectValidate():
             studentGpa = input("Please enter the students GPA:")
             # using previously defined function to validate that the students gpa is a float while
             # avoiding using float(input(...) so the console doesnt give an unsightly error message upon incorrect input type
-            if isFloat(studentGpa) and studentGpa > 0:
+            if isFloat(studentGpa):
                 vc = False
             else: print("Student GPA must maintain this structure '0.00'. Please try again.")
         # packing collected and validated inputs into a tuple 
